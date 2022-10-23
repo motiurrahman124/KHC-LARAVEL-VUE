@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Home\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/{pathMatch}', function(){
-    return view('welcome');
-})->where('pathMatch',".*");
+// Route::get('/{pathMatch}', [HomeController::class,'home'])->where('',".*");
+
+Route::get('/{pathMatch}', [HomeController::class,'home']);
