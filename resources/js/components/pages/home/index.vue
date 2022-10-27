@@ -1,12 +1,38 @@
 <script >
     import HeaderDetails from "../layouts/HeaderDetails.vue";
     import FooterDetails from "../layouts/FooterDetails.vue";
+    import LocationDetails from "../layouts/LocationDetails.vue";
 
    export default {
     components: {
         HeaderDetails,
-        FooterDetails
-    }
+        FooterDetails,
+        LocationDetails
+    },
+    data() {
+                return {
+                    appoinment: {
+                        'name': "",
+                        'phone_number': "",
+                        'email': "",
+                        'date': "",
+                        'doctor': "Dr. S. K. Ballav",
+                        'message': ""
+                    }
+                }
+            },
+
+            methods: {
+                createData() {
+                    axios.post('/appoinment_store', this.appoinment).then(
+                        response => {
+                            console.log(response);
+                        }
+                    ).catch(error => {
+                        console.log('error');
+                    })
+                }
+            },
    };
 </script>
 
@@ -93,72 +119,7 @@
         </div>
         <!-- About End -->
 
-        <div class="container-fluid bg-primary my-3 py-3" style="max-height: 100%">
-            <div class="container py-5">
-                <div class="row">
-                    <div class="col-lg-4 c-box c-box-border">
-                        <div class="mx-auto mb-5" style="max-width: 500px;">
-                            <!-- <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5> -->
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="../layouts/assets/img/call.png" style="width: 80px; max-width: 220px;" alt="">
-                                </div>
-                                <div class="col-md-9 ">
-                                    <h3 class="display-6">Call Us</h3>
-                                        <h5 class="text-white fw-normal">
-                                            +(88) 01720500437 <br>
-                                            +(88) 01720500437
-                                        </h5>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-lg-4 c-box c-box-border">
-                        <div class="mx-auto mb-5" style="max-width: 500px;">
-                            <!-- <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5> -->
-                            <div class="row">
-                                <div class="col-md-3 ml-5">
-                                    <img src="../layouts/assets/img/location.png" style="width: 80px; max-width: 220px;" alt="">
-                                </div>
-                                <div class="col-md-9 ml-5">
-                                    <h3 class="display-6">Our Location</h3>
-                                        <h5 class="text-white fw-normal">
-                                            51/52, Shamsur Rahman Road,<br>
-                                            Baitipara Mor, Beside of -<br>
-                                            Moti Moshzid (1st Floor), <br>
-                                            Khulna,<b></b>
-                                            Bangladesh.
-                                        </h5>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="col-lg-4 c-box">
-                        <div class="mx-auto mb-5" style="max-width: 500px;">
-                            <!-- <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5> -->
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <img src="../layouts/assets/img/time.png" style="width: 80px; max-width: 220px;" alt="">
-                                </div>
-                                <div class="col-md-9 ">
-                                    <h4 class="display-6">Opening Ours</h4>
-                                        <h5 class="text-white fw-normal">
-                                            Saturday to Thursday <br>
-                                            10:00am to 9:30pm
-                                        </h5>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                </div>
-                
-                
-            </div>
-        </div>
+        <location-details></location-details>
 
         <div class="container-fluid py-5">
       <div class="container">
@@ -273,35 +234,65 @@
                     <div class="col-lg-6">
                         <div class="bg-white text-center rounded p-5">
                             <h1 class="mb-4">Book An Appointment</h1>
-                            <form>
-                                <div class="row g-3">
-                                    <div class="col-12 col-sm-12">
-                                        <input type="text" class="form-control bg-light border-0"
-                                            placeholder="Your Name" style="height: 55px;">
-                                    </div>
-                                    
-                                    <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control bg-light border-0"
-                                            placeholder="Phone Number" style="height: 55px;">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="email" class="form-control bg-light border-0"
-                                            placeholder="Your Email" style="height: 55px;">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="date" class="form-control bg-light border-0"
-                                            placeholder="" style="height: 55px;">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control bg-light border-0"
-                                            placeholder="Dr. S. K. Ballav" style="height: 55px;" disabled>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Make An
-                                            Appointment</button>
-                                    </div>
-                                </div>
-                            </form>
+                            <form @submit.prevent="createData()">
+                <div class="row g-3">
+                  <div class="col-12 col-sm-12">
+                    <input
+                      type="text"
+                      class="form-control bg-light border-0"
+                      v-model="appoinment.name"
+                      placeholder="Your Name"
+                      style="height: 55px"
+                    />
+                  </div>
+
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control bg-light border-0"
+                      v-model="appoinment.phone_number"
+                      placeholder="Phone Number"
+                      style="height: 55px"
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="email"
+                      class="form-control bg-light border-0"
+                      v-model="appoinment.email"
+                      placeholder="Your Email"
+                      style="height: 55px"
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="date"
+                      class="form-control bg-light border-0"
+                      v-model="appoinment.date"
+                      placeholder=""
+                      style="height: 55px"
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control bg-light border-0"
+                      v-model="appoinment.doctor"
+                      placeholder="Dr. S. K. Ballav"
+                      style="height: 55px"
+                      disabled
+                    />
+                  </div>
+                  <div class="col-12 col-sm-12">
+                    <textarea v-model="appoinment.message" class="form-control bg-light border-0" row="5" placeholder="Your Message (optional)"></textarea>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-dark w-100 py-3" type="submit">
+                      Make An Appointment
+                    </button>
+                  </div>
+                </div>
+              </form>
                         </div>
                     </div>
                 </div>

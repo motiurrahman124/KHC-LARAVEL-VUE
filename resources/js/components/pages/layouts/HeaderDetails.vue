@@ -1,8 +1,4 @@
-<script>
-   export default {
 
-   };
-</script>
 
 <template>
     <!-- Topbar Start -->
